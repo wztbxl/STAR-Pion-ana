@@ -1,0 +1,49 @@
+#!/bin/tcsh
+
+rm -r MacroCollZip*
+
+
+
+
+set ebinlows =  "0.3 0.4 0.5 0.6 0.7 0.8"
+set ebinhighs = "0.4 0.5 0.6 0.7 0.8 0.9"
+set nebins = 6
+
+set elowlist = ($ebinlows)
+set ehighlist = ($ebinhighs)
+
+set mbinlows = "0.00  0.20 "
+set mbinhighs = "0.20  0.30"
+set nmbins = 2 
+set mlowlist = ($mbinlows)
+set mhighlist = ($mbinhighs)
+
+
+set jtbinlows = "0.00  0.20 "
+set jtbinhighs = "0.20  0.60 "
+set njtbins = 2
+set jtlowlist = ($jtbinlows)
+set jthighlist = ($jtbinhighs)
+
+
+set mcnt = 1
+while( $mcnt <= $nmbins )
+set mlow = $mlowlist[$mcnt]
+set mhigh = $mhighlist[$mcnt]
+	set cnt = 1
+	while( $cnt <= $nebins )
+		set elow = $elowlist[$cnt]
+		set ehigh = $ehighlist[$cnt]
+        set jtcnt = 1 
+            while( $jtcnt <= $njtbins )
+            set jtlow = $jtlowlist[$jtcnt]
+            set jthigh = $jthighlist[$jtcnt]
+            @ jtcnt += 1
+	  			star-submit-template -template xmlColl.xml -entities Elow=$elow,Ehigh=$ehigh,Mlow=$mlow,Mhigh=$mhigh,Jtlow=$jtlow,Jthigh=$jthigh
+        	end 
+	@ cnt += 1
+	end
+@ mcnt += 1
+end
+
+echo "done"

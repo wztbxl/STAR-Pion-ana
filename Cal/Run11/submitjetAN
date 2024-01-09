@@ -1,0 +1,23 @@
+#!/bin/tcsh
+
+rm -r MacroAnjetZip*
+
+set ebinlows = "18 23 28 33 38 43 48 53 58 65 75 90   120 150 180 210"
+set ebinhighs = "23 28 33 38 43 48 53 58 65 75 90 120 150 180 210 240"
+
+
+#set ebinlows = "38 43 48 53 58 65 75 "
+#set ebinhighs = "  43 48 53 58 65 75 90 "
+set nebins = 12
+
+set elowlist = ($ebinlows)
+set ehighlist = ($ebinhighs)
+	
+	set cnt = 1
+	while( $cnt <= $nebins )
+		set elow = $elowlist[$cnt]
+		set ehigh = $ehighlist[$cnt]
+	  	star-submit-template -template xmljetAn.xml -entities Elow=$elow,Ehigh=$ehigh
+		@ cnt += 1
+	end
+echo "done"

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+  <job minFilesPerProcess="1" maxFilesPerProcess="4" filesPerHour="0.5" fileListSyntax="xrootd" simulateSubmission="false">
+ <command>
+	starver SL19c
+	set Dir="/star/data05/scratch/zwzhu/FMSnew/Run11"
+
+	root4star -b -q RunFmsJetAna_stfms.C\(1,1000000000,\"$FILELIST\"\,\"$Dir/Stfms/stfmsAnal_run&runnum;_$JOBID.root\"\,\"$Dir/QA/stfmsQAhisto_run&runnum;_$JOBID.root\"\,0\)
+
+
+  </command>
+
+   <SandBox installer="ZIP">
+  <Package name="MacroZip">
+  <File>file:./RunFmsJetAna_stfms.C</File>
+  <File>file:./FmsGain.txt</File>
+  <File>file:./load.C</File>
+  <File>file:./.sl73_gcc485/</File>
+  </Package>
+  </SandBox>
+
+  <Generator>
+    <Location> ./condorfiles/</Location>
+    <ScriptLocation>./condorfiles/csh/</ScriptLocation>
+    <ListLocation>./condorfiles/list/</ListLocation>
+  </Generator>  
+
+  <input URL="catalog:star.bnl.gov?production=P11id,filetype=daq_reco_MuDst,storage!~HPSS,trgsetupname~pp500_production_2011,filename~st_fms,runnumber=&runnum;" nFiles="all"/>
+  <stderr URL="file:/star/data05/scratch/zwzhu/FMSnew/Run11/stdout/&fill;/runStFmsJetAna_run&runnum;_$JOBID.err"/>
+  <stdout URL="file:/star/data05/scratch/zwzhu/FMSnew/Run11/stdout/&fill;/runStFmsJetAna_run&runnum;_$JOBID.log"/>
+<!--  
+  <output fromScratch="*.root" toURL="file:/star/data05/scratch/zwzhu/FMSnew/JetAna/" />
+  <output fromScratch="*.err" toURL="file:/star/data05/scratch/zwzhu/FMSnew/JetAna/huizi/" />
+  <output fromScratch="*.out" toURL="file:/star/data05/scratch/zwzhu/FMSnew/JetAna/huizi/" />
+-->
+</job>

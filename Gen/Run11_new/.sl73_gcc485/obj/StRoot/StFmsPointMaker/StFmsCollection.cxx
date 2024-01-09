@@ -1,0 +1,1 @@
+../../../../StRoot/StFmsPointMaker/StFmsCollection.cxx

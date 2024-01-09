@@ -1,0 +1,18 @@
+
+
+
+root -l -q drawAnXfCom.C
+root -l -q drawIsoCom.C
+root -l -q readfrac.C
+root -l -q drawPtAnCom.C
+
+root -l -q drawjetAnCom2.C
+root -l -q drawjetinfo.C
+
+root -l -q drawColl.C
+root -l -q drawColljT.C
+
+mkdir Figures
+mv *.png ./Figures
+
+

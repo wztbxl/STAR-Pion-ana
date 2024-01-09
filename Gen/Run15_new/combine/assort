@@ -1,0 +1,41 @@
+#!/bin/tcsh
+
+if ( $# < 1 ) then
+echo "need fill number"
+exit
+endif
+
+set fillnum = $1
+
+if ( ! -e ../runlist/fill${fillnum}_stfms.list ) then
+echo "runlist for fill_${fillnum} does not exist"
+exit
+endif
+
+set filldirin1 = /star/data05/scratch/zwzhu/FMSnew/Run15/Stfms/1/
+set filldirin2 = /star/data05/scratch/zwzhu/FMSnew/Run15/Stfms/2/
+set filldirin3 = /star/data05/scratch/zwzhu/FMSnew/Run15/Stfms/3/
+set filldirin4 = /star/data05/scratch/zwzhu/FMSnew/Run15/Stfms/4/
+set filldirin5 = /star/data05/scratch/zwzhu/FMSnew/Run15/Stfms/5/
+set filldirin6 = /star/data05/scratch/zwzhu/FMSnew/Run15/Stfms/6/
+set filldirin7 = /star/data05/scratch/zwzhu/FMSnew/Run15/Stfms/7/
+set filldirin8 = /star/data05/scratch/zwzhu/FMSnew/Run15/Stfms/8/
+set filldirin9 = /star/data05/scratch/zwzhu/FMSnew/Run15/Stfms/9/
+
+# set your output
+set filldirOut2 = /star/data05/scratch/zwzhu/FMSnew/combine/${fillnum}
+set filldirOut1 = /star/u/zwzhu/01zwzhu/Run15/byfill
+rm filldirOut2/*
+
+mkdir -p $filldirOut2/
+mkdir -p $filldirOut3/
+
+# combine a run
+foreach run ( `cat ../runlist/fill${fillnum}_stfms.list` )
+echo $run
+hadd  -f  -k $filldirOut2/ipi0jetcor_stfms_run${run}.root  $filldirin1/stfms_run${run}_*.root	  $filldirin2/stfms_run${run}_*.root	  $filldirin3/stfms_run${run}_*.root	  $filldirin4/stfms_run${run}_*.root	  $filldirin5/stfms_run${run}_*.root	  $filldirin6/stfms_run${run}_*.root	  $filldirin7/stfms_run${run}_*.root	  $filldirin8/stfms_run${run}_*.root	  $filldirin9/stfms_run${run}_*.root	
+
+end
+
+# combine a fill
+hadd -f  -k $filldirOut1/ipi0jetcor_stfms_Fill${fillnum}.root $filldirOut2/*.root

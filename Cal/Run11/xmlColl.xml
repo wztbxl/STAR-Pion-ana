@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+ <job minFilesPerProcess="1" maxFilesPerProcess="4" filesPerHour="6" fileListSyntax="xrootd" simulateSubmission="false">
+<command>
+	starver SL19c
+	foreach infile ( `awk '{ print $1 }' $FILELIST` )
+	       set file = `basename $infile`
+	       set fill = `echo  $file| grep -P -o "\d{5}"`
+	       echo file is $infile in fill  $fill
+
+		root -b -q crColl.C\(&Elow;,&Ehigh;,&Mlow;,&Mhigh;,${fill},&Jtlow;,&Jthigh;,\"${infile}\"\)
+	end
+
+
+  </command>
+
+   <SandBox installer="ZIP">
+  <Package name="MacroCollZip">
+  <File>file:crColl.C</File>
+  </Package>
+  </SandBox>
+
+  <Generator>
+    <Location> ./condorfiles/</Location>
+	<ScriptLocation>./condorfiles/csh/</ScriptLocation>
+    <ListLocation>./condorfiles/list/</ListLocation>
+  </Generator>	
+
+  <input URL="filelist:/star/u/zwzhu/01zwzhu/ana/New/PaperCode/Submit/Run11/forxmlfile" nFiles="100" />
+  <stdout URL="file:/star/data05/scratch/zwzhu/FMSnew/Run11/subLog/Coll_&Elow;_&Ehigh;_$JOBID.out"/>
+  <stderr URL="file:/star/data05/scratch/zwzhu/FMSnew/Run11/subLog/Coll_&Elow;_&Ehigh;_$JOBID.err"/>
+  <output fromScratch="*.txt" toURL="file:/star/u/zwzhu/01zwzhu/ana/New/PaperCode/Submit/Run11/result/Collins2/" />
+
+</job>

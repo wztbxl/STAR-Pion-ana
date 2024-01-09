@@ -1,0 +1,39 @@
+#!/bin/tcsh
+pwd
+
+#rm -r Macro*
+
+if ( $# < 1 ) then
+echo "need period number 1 to 9"
+exit
+endif
+
+
+#starver SL17d
+
+set fillnum = $1
+if ( ! -e ./runlist/fill${fillnum}.list ) then
+echo "fill list ./runlist/fill${fillnum}.list does not exist"
+exit
+endif
+
+
+
+set Dir=/star/u/zwzhu/data05/FMSnew/
+mkdir -p condorfiles/csh
+mkdir -p condorfiles/list
+  
+#mkdir $Dir
+#mkdir -p $Dir/Run15/Stfms/${1}
+#mkdir -p $Dir/Run15/PiCor/${1}
+cp gainCorr/FmsGainCorr${1}.txt   FmsGainCorr.txt
+
+# foreach run ( `cat ./goodruns.pptrans.txt ` )
+ foreach run ( `cat ./runlist/fill${fillnum}.list ` )
+echo "process run${run}"
+#mkdir -p $Dir/Run15/stderr/${run}
+#mkdir -p $Dir/Run15/stdout/${run}
+star-submit-template -template ./RunFmsJetAna_stfms.xml -entities "fillnum=${fillnum},runnum=${run},Period=${1}"
+end
+
+echo " done"

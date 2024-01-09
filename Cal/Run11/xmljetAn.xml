@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+ <job minFilesPerProcess="1" maxFilesPerProcess="5" filesPerHour="10" fileListSyntax="xrootd" simulateSubmission="false">
+<command>
+	starver SL19c
+	set Dir="/star/data05/scratch/zwzhu/FMSnew/Run11"
+	foreach infile ( `awk '{ print $1 }' $FILELIST` )
+   
+   		  set file = `basename $infile`
+          set fill = `echo  $file| grep -P -o "\d{5}"`
+          echo file is $infile in fill  $fill
+
+		root -l -b -q crjetAn.C\(&Elow;,&Ehigh;,1,1,${fill},\"${infile}\"\)
+		root -l -b -q crjetAn3.C\(&Elow;,&Ehigh;,1,1,${fill},\"${infile}\"\)
+	end
+
+
+  </command>
+
+   <SandBox installer="ZIP">
+  <Package name="MacroAnjetZip">
+  <File>file:crjetAn.C</File>
+  <File>file:crjetAn3.C</File>
+  </Package>
+  </SandBox>
+
+  <Generator>
+    <Location> ./condorfiles/</Location>
+	<ScriptLocation>./condorfiles/csh/</ScriptLocation>
+    <ListLocation>./condorfiles/list/</ListLocation>
+  </Generator>	
+
+  <input URL="filelist:/star/u/zwzhu/01zwzhu/ana/New/PaperCode/analyzeCode/Run11/forxmlfile" nFiles="100" />
+  <stdout URL="file:/star/data05/scratch/xchu/TSSA/Log/Run11/jet11An_&Elow;_&Ehigh;_$JOBID.out"/>
+  <stderr URL="file:/star/data05/scratch/xchu/TSSA/Log/Run11/jet11An_&Elow;_&Ehigh;_$JOBID.err"/>
+  <output fromScratch="*.txt" toURL="file:/star/u/xchu/pwg/TSSA/results_new/Run11/jetAn2/" />
+
+</job>

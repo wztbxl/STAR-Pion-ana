@@ -1,0 +1,12 @@
+rm -r Macro*
+mkdir -p condorfiles/csh
+mkdir -p condorfiles/list
+
+
+
+submitAN
+submitColl
+submitIso
+submitjetAN
+submitPtAN
+

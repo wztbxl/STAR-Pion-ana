@@ -1,0 +1,1 @@
+../../../../StRoot/StFmsAnalysisMaker/StFmsPointCopy.cxx

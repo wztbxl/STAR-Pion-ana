@@ -1,0 +1,31 @@
+#!/bin/tcsh
+pwd
+if ( $# < 1 ) then
+echo "need fill number"
+exit
+endif
+
+
+#starver SL17d
+
+set fillnum = $1
+if ( ! -e ./runlist/fill${fillnum}_stfms.list ) then
+echo "fill list ./runlist/fill${fillnum}_stfms.list does not exist"
+exit
+endif
+
+#set Dir=/star/data05/scratch/zwzhu/FMSnew/
+
+mkdir -p condorfiles/csh
+mkdir -p condorfiles/list
+#mkdir -p $Dir/stderr/$1
+#mkdir -p $Dir/Run11/stdout/$1
+#mkdir -p $Dir/Run11/Stfms/
+##mkdir -p $Dir/JetAna/PiCor/
+
+foreach run ( `cat ./runlist/fill${fillnum}_stfms.list` )
+echo "process run${run}"
+star-submit-template -template ./RunFmsJetAna_stfms.xml -entities "runnum=${run}, fill=${fillnum}"
+end
+
+echo "fill${fillnum} done"

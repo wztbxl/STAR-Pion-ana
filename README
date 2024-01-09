@@ -1,0 +1,31 @@
+Denotion:
+	[the command] is a Linux command
+	"file" is a file "folder/" is a folder
+
+Code description:
+There are 3 parts(folders) of codes. In folder "Gen" and "Cal" , Run11 and Run15 are seperated.
+
+1 folder Gen:  get mudst from the server and build trees 
+	[starver SL19c]
+	[cvs co StRoot/StJetMake] [cvs co StRoot/StJetFinder/] somewhere else , overwrite them with my version in "Run11_new/StRoot/" and copy them back to "Run11_new/StRoot/" and "Run11_new/StRoot/".
+	[cons]
+
+	The job submission is fill-to-fill based for Run11 and period based  Run15. To submit a fill/period exec [submitFmsJetAna_stfms X] where X is a 5-digit fill number for Run11 and 1-digit period number(range from 1-9) for Run-15. To submit all fills in Run11, just exec [source Batchassort1]. For test purpose one can use 15315 for Run-11 and 0(for fill 18753,just created for test propose) for Run-15. After jobs done, use the template in "combine/" to merge the root files 
+
+	Note: 
+	1.1 Output files are directed to my local directory, one could change it in "RunFmsJetAna_stfms.xml"
+	1.2 My output files are located in "/star/u/zwzhu/01zwzhu/Run11/byfill/" and "/star/u/zwzhu/01zwzhu/Run15/byfill/" which are used in next part as input.
+
+2 folder Cal: calculate all the observable and save into text files
+	There are 5 observables. To calculate each one, exec [submitAN] [submitIso] [submitPtAN] [submitjetAN] [submiColl]. To submit all 5, exec [source SubALL](not advisable, too many jobs submitting at one time could cause trouble.)
+
+	Note:
+	2.1 Default input directs to my local file, see Note 1.2. One could change the links in "forxmlfile".
+	2.2 Output files are directed to my local directory, one could change them in those 5 xml files.
+	2.3 My result files are stored in my local directory, which are used in next part to draw the final plots.
+	
+
+3 folder Draw:
+	exec [source drawall] to get all the figures for the paper in Figures/
+	Note:
+	3.1 Some Root files ae stored in my local directory

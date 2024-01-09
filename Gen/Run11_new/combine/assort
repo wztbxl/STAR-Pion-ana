@@ -1,0 +1,37 @@
+#!/bin/tcsh
+
+if ( $# < 1 ) then
+echo "need fill number"
+exit
+endif
+
+set fillnum = $1
+
+if ( ! -e ../runlist/fill${fillnum}_stfms.list ) then
+echo "runlist for fill_${fillnum} does not exist"
+exit
+endif
+
+set filldirin1 = /star/scratch/zwzhu/FMSnew/JetAna/Stfms
+set filldirin2 = /star/data05/scratch/zwzhu/FMSnew/JetAna/Stfms
+set filldirin3 = /star/data05/scratch/zwzhu/FMSnew/Run11/Stfms
+set filldirOut = /star/u/zwzhu/01zwzhu/Run11/combine/Fill${fillnum}
+
+rm $filldirOut/*
+#mkdir -p $filldir1
+#mkdir -p ${filldir1}/PiCor
+#mkdir -p ${filldir1}/Stfms
+#mkdir -p ${filldir}/JetQA
+#mkdir -p ${filldir}/QA
+#mkdir -p ${filldir}/FmsCor
+#mkdir -p ${filldir}/FmsCorHis
+
+echo FILL ${fillnum}
+foreach run ( `cat ../runlist/fill${fillnum}_stfms.list` )
+	hadd  -f -k $filldirOut/stfmsAnal_run${run}.root    $filldirin3/*run${run}*.root
+
+echo "${run} done"
+end
+
+hadd -f -k  /star/u/zwzhu/01zwzhu/Run11/byfill/ipi0jetcor_stfms_Fill${fillnum}.root  $filldirOut/*.root
+

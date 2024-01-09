@@ -1,0 +1,45 @@
+#!/bin/tcsh
+
+rm -r MacroPtZip*
+
+set ptbinlows = "1.5 2 2.5 3 4 5  6  "
+set ptbinhighs = "2 2.5 3  4 5 6  7 "
+set nptbins = 6
+set ptlowlist = ($ptbinlows)
+set pthighlist = ($ptbinhighs)
+
+set ebinlows = " 45 60 75 "
+set ebinhighs = "60 75 90 "
+set nebins = 3
+
+set elowlist = ($ebinlows)
+set ehighlist = ($ebinhighs)
+
+set mbinlows = " 0.00 0.20 "
+set mbinhighs = " 0.20  0.30"
+set nmbins = 2 
+set mlowlist = ($mbinlows)
+set mhighlist = ($mbinhighs)
+
+
+set mcnt = 1
+while( $mcnt <= $nmbins )
+set mlow = $mlowlist[$mcnt]
+set mhigh = $mhighlist[$mcnt]
+	set cnt = 1
+	while( $cnt <= $nebins )
+		set elow = $elowlist[$cnt]
+		set ehigh = $ehighlist[$cnt]
+			set ptcnt = 1
+			while( $ptcnt <= $nptbins )
+				set ptlow = $ptlowlist[$ptcnt]
+				set pthigh = $pthighlist[$ptcnt]
+			  	star-submit-template -template xmlPtAn.xml -entities Elow=$elow,Ehigh=$ehigh,Mlow=$mlow,Mhigh=$mhigh,Ptlow=$ptlow,Pthigh=$pthigh 
+				@ ptcnt += 1
+			end
+		@ cnt += 1
+	end
+@ mcnt += 1
+end
+
+echo "done"
