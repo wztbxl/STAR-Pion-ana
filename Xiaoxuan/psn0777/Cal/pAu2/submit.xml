@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<job maxFilesPerProcess="1"  copyInputLocally="false" filesPerHour="1">
+    <command>
+	stardev 
+        root4star -b -q runTree.C\(\"$FILELIST\"\) 
+	mv dipi0.root $JOBID.root
+    </command>
+    <input URL="filelist:/star/u/xchu/work/Run15/DiHadronCorr/Ana/pAu2/pAu2.tree.list" />
+    <stdout URL="file:YourDirectory/pAu2/$JOBINDEX.log" />
+    <stderr URL="file:YourDirectory/pAu2/$JOBINDEX.err" />
+    <output fromScratch="*.root" toURL="file:YourDirectory/pAu/Hist/" />
+    <ResourceUsage>
+        <Memory>
+              <MinMemory>2000</MinMemory>
+        </Memory>
+        <StorageSpace>
+              <MinStorage>2000</MinStorage>
+        </StorageSpace>
+    </ResourceUsage>
+    <SandBox>
+        <Package>
+	    <File>file:runTree.C</File>
+	    <File>file:./.sl73_gcc485/</File>
+        </Package>
+    </SandBox>
+</job>

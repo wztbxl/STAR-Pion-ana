@@ -1,0 +1,6 @@
+How to run Mudst to produce mini tree for dipi0 analysis:
+1. unzip StRoot 
+2. stardev
+3. cons
+4. change Mudst_input.files into the correct one (pp/pAu1/pAu2/pAl)
+5. ./submit_read.sh

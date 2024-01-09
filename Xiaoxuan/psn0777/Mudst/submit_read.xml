@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<job maxFilesPerProcess="10" filesPerHour="1" fileListSyntax="xrootd">
+  <command>
+    starver DEV
+echo HELLLOOOO
+echo $FILELIST
+cat $FILELIST
+
+    root4star -b -q runMudst.C\(\"$FILELIST\"\)
+rm -rf \*DiPi0.root
+rm -rf \*fmsqa.root
+ls -la
+  </command>
+
+  <stdout URL="file:&base;/log/sched_$JOBID.out" />
+  <stderr URL="file:&base;/log/sched_$JOBID.err" />
+  <input  URL="filelist:&filelist;"/>
+
+  <Generator>
+    <Location>./jobs/report/</Location>
+    <ScriptLocation>./jobs/csh/</ScriptLocation>
+    <ListLocation>./jobs/list/</ListLocation>
+  </Generator>
+
+  <!--<output fromScratch="log_*" toURL="file:&base;/" />-->
+  <!--<output fromScratch="*.log" toURL="file:&base;" />-->
+  <output fromScratch="INPUTFILES/$JOBID.*.root" toURL="file:&base;/" />
+
+  <SandBox>
+    <Package>
+      <File>file:./runMudst.C</File>
+      <File>file:./load.C</File>
+<!--      <File>file:./StRoot/</File>-->
+      <File>file:./.sl73_gcc485/</File>
+    </Package>
+  </SandBox>
+
+</job>
